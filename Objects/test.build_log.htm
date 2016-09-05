@@ -27,17 +27,20 @@ Project File Date:  09/04/2016
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 3 (build 300)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Rebuild target 'Target 1'
-assembling startup_ADuCM360.s...
+compiling GPIOTEST.c...
+compiling ADuCM360_Regs.c...
 compiling main.c...
-ADuCM360_Regs.h(23): warning:  #1-D: last line of file ends without a newline
-  #endif
-main.c: 1 warning, 0 errors
+main.c(61): warning:  #111-D: statement is unreachable
+  			return 1;
+main.c(62): warning:  #1-D: last line of file ends without a newline
+  	}
+main.c: 2 warnings, 0 errors
+assembling startup_ADuCM360.s...
 compiling system_ADuCM360.c...
 linking...
-.\Objects\test.axf: Error: L6218E: Undefined symbol main (referred from __rtentry2.o).
-Not enough information to list image symbols.
-Finished: 1 information, 0 warning and 1 error messages.
-".\Objects\test.axf" - 1 Error(s), 1 Warning(s).
+Program Size: Code=812 RO-data=256 RW-data=188 ZI-data=1636  
+FromELF: creating hex file...
+".\Objects\test.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -61,11 +64,10 @@ Package Vendor: ARM
 <h2>Collection of Component Files used:</h2>
 
    * Component: AnalogDevices::Device:Startup:1.0.0
-      Source file:   Device\Source\system_ADuCM360.c
       Source file:   Device\Source\startup_ADuCM360.s
+      Source file:   Device\Source\system_ADuCM360.c
 
    * Component: ARM::CMSIS:CORE:5.0.0
-Target not created.
 Build Time Elapsed:  00:00:01
 </pre>
 </body>

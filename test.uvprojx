@@ -394,6 +394,11 @@
               <FileType>1</FileType>
               <FilePath>.\ADuCM360_Regs.c</FilePath>
             </File>
+            <File>
+              <FileName>GPIOTEST.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\GPIOTEST.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
