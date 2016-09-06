@@ -30,19 +30,19 @@ int main(){
 	
 	//step 3. We can set up the behavior of UART you choose.
 	*pCOMCON = 0x00;			//UART peripheral is enabling.
-	*pGP0CON = 0x003C;		//P0.2 will be UART TX, P0.1 will be UART RX.
+	*pGP0CON = 0x9000;		//P0.7 will be UART TX, P0.6 will be UART RX.
+  //*pGP0CON = 0x003C;		//P0.2 will be UART TX, P0.1 will be UART RX
 	*pCOMDIV = 0x0002;			//COMDIV = 2;
 	
 	*pCOMFBR = 0x915C;		//DIVM=2, DIVN = 348, In order to be 115200bps
 	*pCOMLCR = 0x0003;		// WordLength = 8 bits, stop bit = 1, No parity check.
 	
-	*pGP0CON = 0x0000;
 	*pGP0OEN = 0x10;
 	
-	j = strlen((char *)szTemp)+1;
+	j = strlen((char *)szTemp)+1;		//문자열 길이를 가져온다.
 	for(i = 0; i<j; i++){
 		reg_data = *pCOMLSR;
-		reg_data = ((reg_data)&(0x1<<5))>>(5);
+		reg_data = ((reg_data)&(0x1<<5))>>(5);		//THRE:COMTX가 비어있는 경우 interrupt가 발생한 것을 의미.
 		while(reg_data != 0x01){
 			reg_data = *pCOMLSR;
 			reg_data = ((reg_data)&(0x1<<5))>>(5);
@@ -51,12 +51,12 @@ int main(){
 		#ifdef FermiEmulation_Mode
 			__asm{ DSB}
 		#endif
-		}
-			while(1){
-    		*pGP0TGL = 0x10;
-				for(i = 0; i<400000; i++){
+	}
+	while(1){							//P0.5에 연결된 LED를 계속 점멸 시킴.
+    *pGP0TGL = 0x10;
+			for(i = 0; i<400000; i++){
 			  __asm{ nop}
 		  }
-		}
-			return 1;
 	}
+			return 1;
+}

@@ -413,9 +413,9 @@ Image Symbol Table
     __use_no_semihosting_swi                 0x000002d5   Thumb Code     2  use_no_semi.o(.text)
     __semihosting_library_function           0x000002d7   Thumb Code     0  indicate_semi.o(.text)
     SystemInit                               0x000002d9   Thumb Code    22  system_aducm360.o(i.SystemInit)
-    main                                     0x000002fd   Thumb Code   192  main.o(i.main)
-    Region$$Table$$Base                      0x0000040c   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x0000042c   Number         0  anon$$obj.o(Region$$Table)
+    main                                     0x000002fd   Thumb Code   186  main.o(i.main)
+    Region$$Table$$Base                      0x00000408   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x00000428   Number         0  anon$$obj.o(Region$$Table)
     pT3LD                                    0x20000000   Data           4  aducm360_regs.o(.data)
     pT3VAL                                   0x20000004   Data           4  aducm360_regs.o(.data)
     pT3CON                                   0x20000008   Data           4  aducm360_regs.o(.data)
@@ -474,9 +474,9 @@ Memory Map of the image
 
   Image Entry point : 0x0000017d
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x000004e8, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x000004e4, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Base: 0x00000000, Size: 0x0000042c, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Base: 0x00000000, Size: 0x00000428, Max: 0xffffffff, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -540,8 +540,8 @@ Memory Map of the image
     0x000002d6   0x00000000   Code   RO          211    .text               c_w.l(indicate_semi.o)
     0x000002d6   0x00000002   PAD
     0x000002d8   0x00000024   Code   RO           53    i.SystemInit        system_aducm360.o
-    0x000002fc   0x00000110   Code   RO            1    i.main              main.o
-    0x0000040c   0x00000020   Data   RO          264    Region$$Table       anon$$obj.o
+    0x000002fc   0x0000010c   Code   RO            1    i.main              main.o
+    0x00000408   0x00000020   Data   RO          264    Region$$Table       anon$$obj.o
 
 
     Execution Region ER_RW (Base: 0x20000000, Size: 0x000000bc, Max: 0xffffffff, ABSOLUTE)
@@ -569,12 +569,12 @@ Image component sizes
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
          0          0          0        188          0       1966   aducm360_regs.o
-       272         80          0          0          0       5163   main.o
+       268         82          0          0          0       5159   main.o
         64         26        224          0       1536        812   startup_aducm360.o
         36         14          0          0          0        425   system_aducm360.o
 
     ----------------------------------------------------------------------
-       372        120        256        188       1536       8366   Object Totals
+       368        122        256        188       1536       8362   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          0          0          0          0          0          0   (incl. Padding)
 
@@ -625,15 +625,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-       812        136        256        188       1636       8842   Grand Totals
-       812        136        256        188       1636       8842   ELF Image Totals
-       812        136        256        188          0          0   ROM Totals
+       808        138        256        188       1636       8838   Grand Totals
+       808        138        256        188       1636       8838   ELF Image Totals
+       808        138        256        188          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 1068 (   1.04kB)
+    Total RO  Size (Code + RO Data)                 1064 (   1.04kB)
     Total RW  Size (RW Data + ZI Data)              1824 (   1.78kB)
-    Total ROM Size (Code + RO Data + RW Data)       1256 (   1.23kB)
+    Total ROM Size (Code + RO Data + RW Data)       1252 (   1.22kB)
 
 ==============================================================================
 
