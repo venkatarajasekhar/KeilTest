@@ -15,7 +15,7 @@
 ////	uint8_t reg_data = 0;
 //	
 //	//use to store string before printing to UART
-//	unsigned char szTemp[] = "Hello UART World!\n";
+//	unsigned char szTemp[] = "Hello UART World";
 //	
 //	#ifdef FermiEmulation_Mode
 //			ADuCM360_GPIORegsInt();
@@ -43,7 +43,7 @@
 //	
 //	*pCOMIEN = 0x0000;		//COMTX_RX interrupt are disabling
 //	write_reg(0xE000E100, 0x00020000);		//ISER = 0XE0000E100
-//		*pCOMIEN = 0x0003;		//COMTX_RX interrupt are enabling
+//	*pCOMIEN = 0x0003;		//COMTX_RX interrupt are enabling
 //	
 //	
 //	*pGP0OEN = 0x10;
@@ -54,6 +54,7 @@
 //		*pCOMTX_RX = szTemp[i];
 //		while(ucTxBufferEmpty == 0);
 //	}
+//	
 //	while(1){							//P0.5에 연결된 LED를 계속 점멸 시킴.
 //    *pGP0TGL = 0x10;
 //			for(i = 0; i<400000; i++){
@@ -66,7 +67,7 @@
 //void UART_ISR(void){
 //	volatile unsigned char ucCOMMIID0 = 0;
 //	
-//	ucCOMMIID0 = *pCOMIIR; 			//read_mask UART Interrupt ID register
+//	ucCOMMIID0 = *pCOMIIR; 							//read_mask UART Interrupt ID register
 //	if((ucCOMMIID0 & 0x7) == 0x2){			//Transmit buffer empty
 //		ucTxBufferEmpty = 1;
 //	}

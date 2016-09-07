@@ -512,12 +512,12 @@ ARM Macro Assembler    Page 8
               00000200 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
-ork --depend=.\objects\startup_aducm360.d -o.\objects\startup_aducm360.o -ID:\0
-05_Projectes\ARM\KeilTest\RTE -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.0-Beta4\CMSIS
-\Include -IC:\Keil_v5\ARM\PACK\AnalogDevices\ADuCM36x_DFP\1.0.1\Device\Include 
---predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 521" --predefin
-e="_RTE_ SETA 1" --predefine="ADuCM360 SETA 1" --list=.\listings\startup_aducm3
-60.lst RTE\Device\ADuCM360\startup_ADuCM360.s
+ork --depend=.\objects\startup_aducm360.d -o.\objects\startup_aducm360.o -ID:\P
+rojects\ARM\KeilTest\RTE -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.0-Beta4\CMSIS\Incl
+ude -IC:\Keil_v5\ARM\PACK\AnalogDevices\ADuCM36x_DFP\1.0.1\Device\Include --pre
+define="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 521" --predefine="_R
+TE_ SETA 1" --predefine="ADuCM360 SETA 1" --list=.\listings\startup_aducm360.ls
+t RTE\Device\ADuCM360\startup_ADuCM360.s
 
 
 

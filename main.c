@@ -10,14 +10,12 @@
 //Used to store string before printing to UART
 unsigned char ucTxBufferEmpty = 0;
 
-void UART_ISR(void);
-
 int main(){
 	uint32_t i=0, j=0;
 //	uint8_t reg_data = 0;
 	
 	//use to store string before printing to UART
-	unsigned char szTemp[] = "Hello UART World!\n";
+	unsigned char szTemp[] = "Hello UART World\r\n";
 	
 	#ifdef FermiEmulation_Mode
 			ADuCM360_GPIORegsInt();
@@ -56,6 +54,7 @@ int main(){
 		*pCOMTX_RX = szTemp[i];
 		while(ucTxBufferEmpty == 0);
 	}
+	
 	while(1){							//P0.5에 연결된 LED를 계속 점멸 시킴.
     *pGP0TGL = 0x10;
 			for(i = 0; i<400000; i++){
@@ -68,7 +67,7 @@ int main(){
 void UART_ISR(void){
 	volatile unsigned char ucCOMMIID0 = 0;
 	
-	ucCOMMIID0 = *pCOMIIR; 			//read_mask UART Interrupt ID register
+	ucCOMMIID0 = *pCOMIIR; 							//read_mask UART Interrupt ID register
 	if((ucCOMMIID0 & 0x7) == 0x2){			//Transmit buffer empty
 		ucTxBufferEmpty = 1;
 	}
