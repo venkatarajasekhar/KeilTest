@@ -399,6 +399,21 @@
               <FileType>1</FileType>
               <FilePath>.\GPIOTEST.c</FilePath>
             </File>
+            <File>
+              <FileName>Polling_UART_Ex1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Polling_UART_Ex1.c</FilePath>
+            </File>
+            <File>
+              <FileName>JongSuLib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\JongSuLib.c</FilePath>
+            </File>
+            <File>
+              <FileName>JongSuLib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\JongSuLib.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
