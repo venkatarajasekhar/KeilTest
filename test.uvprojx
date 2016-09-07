@@ -414,6 +414,11 @@
               <FileType>5</FileType>
               <FilePath>.\JongSuLib.h</FilePath>
             </File>
+            <File>
+              <FileName>Interrupt_UART_EX1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Interrupt_UART_EX1.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

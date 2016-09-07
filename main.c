@@ -10,9 +10,11 @@
 //Used to store string before printing to UART
 unsigned char ucTxBufferEmpty = 0;
 
+void UART_ISR(void);
+
 int main(){
 	uint32_t i=0, j=0;
-	uint8_t reg_data = 0;
+//	uint8_t reg_data = 0;
 	
 	//use to store string before printing to UART
 	unsigned char szTemp[] = "Hello UART World!\n";
@@ -43,7 +45,7 @@ int main(){
 	
 	*pCOMIEN = 0x0000;		//COMTX_RX interrupt are disabling
 	write_reg(0xE000E100, 0x00020000);		//ISER = 0XE0000E100
-		*pCOMIEN = 0x0003;		//COMTX_RX interrupt are enabling
+	*pCOMIEN = 0x0003;		//COMTX_RX interrupt are enabling
 	
 	
 	*pGP0OEN = 0x10;
@@ -60,5 +62,14 @@ int main(){
 			  __asm{ nop}
 		  }
 	}
-			return 1;
+	return 1;
+}
+
+void UART_ISR(void){
+	volatile unsigned char ucCOMMIID0 = 0;
+	
+	ucCOMMIID0 = *pCOMIIR; 			//read_mask UART Interrupt ID register
+	if((ucCOMMIID0 & 0x7) == 0x2){			//Transmit buffer empty
+		ucTxBufferEmpty = 1;
+	}
 }
