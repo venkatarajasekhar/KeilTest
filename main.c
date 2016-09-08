@@ -1,74 +1,178 @@
-#include <stdio.h>
 #include <stdint.h>
 #include <string.h>
 
 #include "ADuCM360_Regs.h"
 #include "JongSuLib.h"
 
-#define MyName "Jeong"
+uint8_t getc(void);
+void putc(uint8_t Ch);
+void puts(const char* str);
+int gets(uint8_t *s);
+void menu_display(void);
+int hextoint(unsigned char *hex);
 
-//Used to store string before printing to UART
-unsigned char ucTxBufferEmpty = 0;
+#define MyName "Jeong"
+#define RETURN '\n'
 
 int main(){
-	uint32_t i=0, j=0;
-//	uint8_t reg_data = 0;
+	uint8_t szTemp[80];					//Used to stort string before printing to UART
+	uint8_t d, addr;
+	int state;
 	
-	//use to store string before printing to UART
-	unsigned char szTemp[] = "Hello UART World\r\n";
+#ifdef	FermiEmulation_Mode
+		ADuCM360_GPIORegsInit();
+#endif
 	
-	#ifdef FermiEmulation_Mode
-			ADuCM360_GPIORegsInt();
-	#endif
-	
-	//step 1. We should first disable watchdog timer.
+	//Step1. Watchdog Timer Disable
 	*pT3CON = 0x0;
 	
-	//step 2. We should set up clock domain according to your plan.
-	//UART Speed rate will be 11520[bps] based on UCLK/DIV = 16[Mhz]
-	//COMDIV = 2, DIVM = 2, DIVN =348
-	*pCLKDIS = 0x03F7;			//UART System Clock enabling, It means UARTCLK is enabling.
-	*pCLKSYSDIV = 0x00;		//HFOSC isn't divided by 1/2. That means UCLK is 16Mhz
-	*pCLKCON0 = 0x0000;  //UCLK/DIV = 16Mhz, That means UARTCLK is 16Mhz
-	*pCLKCON1 = 0x0000;  //UCLK/DIV = 16Mhz, That means UARTCLK is 16Mhz
+	//Step2. Clock Setting
+	//UART Speed rate will be 115200bps, based on UCLK/DIV = 16Mhz
+	//COMDIV = 2, DIVM = 2, DIVN = 348
+	*pCLKDIS = 0x03F7;					//UART Clock Enable
+	*pCLKSYSDIV = 0x00;			//HFOSC does not  devide(16Mhz)
+	*pCLKCON0 = 0x0000;		//UCLK/DIV = 16Mhz
+	*pCLKCON1 = 0x0000;		//UCLK/DIV = 16Mhz
 	
-	//step 3. We can set up the behavior of UART you choose.
-	*pCOMCON = 0x00;			//UART peripheral is enabling.
-	*pGP0CON = 0x9000;		//P0.7 will be UART TX, P0.6 will be UART RX.
-  //*pGP0CON = 0x003C;		//P0.2 will be UART TX, P0.1 will be UART RX
+	//Step3. UART Setting
+	*pCOMCON = 0x00;				//UART peripheral Enable
+	*pGP0CON = 0x9000;			//P0.7 will be UART TX, P0.6 will be UART RX.
+	
 	*pCOMDIV = 0x0002;			//COMDIV = 2;
 	
 	*pCOMFBR = 0x915C;		//DIVM=2, DIVN = 348, In order to be 115200bps
 	*pCOMLCR = 0x0003;		// WordLength = 8 bits, stop bit = 1, No parity check.
 	
-	*pCOMIEN = 0x0000;		//COMTX_RX interrupt are disabling
-	write_reg(0xE000E100, 0x00020000);		//ISER = 0XE0000E100
-	*pCOMIEN = 0x0003;		//COMTX_RX interrupt are enabling
-	
-	
-	*pGP0OEN = 0x10;
-	
-	j = strlen((char *)szTemp)+1;		//문자열 길이를 가져온다.
-	for(i = 0; i<j; i++){
-		ucTxBufferEmpty = 0;
-		*pCOMTX_RX = szTemp[i];
-		while(ucTxBufferEmpty == 0);
-	}
-	
-	while(1){							//P0.5에 연결된 LED를 계속 점멸 시킴.
-    *pGP0TGL = 0x10;
-			for(i = 0; i<400000; i++){
-			  __asm{ nop}
-		  }
+	while(1){
+		puts("LoveIRIS]");
+		state = gets(szTemp);
+		d = szTemp[0];
+		if(d == 'm'){
+			addr = d;
+		}
+		else if(d == RETURN){
+			addr = 'r';
+		}
+		else {
+			addr = hextoint(szTemp);
+		}
+		
+		szTemp[0] = 0;
+		switch(addr){
+			case 0x1:
+				puts("PWM Test\n");
+				break;
+			case 'm':
+				menu_display();
+				break;
+			default:
+				break;
+		}
 	}
 	return 1;
 }
 
-void UART_ISR(void){
-	volatile unsigned char ucCOMMIID0 = 0;
-	
-	ucCOMMIID0 = *pCOMIIR; 							//read_mask UART Interrupt ID register
-	if((ucCOMMIID0 & 0x7) == 0x2){			//Transmit buffer empty
-		ucTxBufferEmpty = 1;
+int hextoint(unsigned char *hex){
+	unsigned char r =0;
+	unsigned char d;
+	while(1){
+		d = *hex++;
+		if(d == 0)
+			break;
+		r <<=4;
+		
+		if((d>= '0') && (d<='9'))
+			r += d - '0';
+		else if((d>='A') && (d<='F'))
+			r += d - 'A'+10;
+		else if((d>='a') && (d<='f'))
+			r += d - 'a'+10;
+		else
+			return -1;
+	}
+	return r;
+}
+
+int gets(uint8_t *s){
+	int len = 0;
+	while(1){
+		s[len] = getc();
+		if(s[len] == '\n' || s[len] == '\r'){
+			putc('\r');
+			putc('\n');
+			s[len] = '\0';
+			break;
+		}
+		else if(s[len] == 0x7F || s[len] == 0x08){
+			if(len > 0){
+				puts("\b \b");
+				len--;
+			}
+		}
+		else{
+			putc(s[len]);
+			len++;
+		}
+	}
+	return 1;
+}
+
+
+uint8_t getc(void){
+	uint8_t reg_data=0, tmp;
+	reg_data = *pCOMLSR;
+	reg_data = ((reg_data)&(0x1<<0)) >>(0);
+	while(reg_data != 0x1){
+		reg_data = *pCOMLSR;
+		reg_data = ((reg_data)&(0x1<<0)) >>(0);
+	}
+	tmp = *pCOMTX_RX;
+#ifdef FermiEmulation_Mode
+		__asm{ DSB}
+#endif
+	return tmp;
+}
+
+
+void puts(const char* str){
+	while(*str){
+		putc(*str);
+		++str;
 	}
 }
+
+void putc(uint8_t Ch){
+	if(Ch == '\n'){
+		while((((read_reg(0x40005014)&(0x1<<5)))>>(5)) != 0x1);
+		*pCOMTX_RX = '\n';
+	}
+	while((((read_reg(0x40005014)&(0x1<<5)))>>(5)) != 0x1);
+	*pCOMTX_RX = Ch;
+	
+#ifdef FermiEmulation_Mode
+		__asm{ DSB}
+#endif
+}
+
+void menu_display()
+{
+	puts("*************************************************************\n");
+	puts("**                                                           \n");		
+	puts("**   Note :                                                  \n");					 
+	puts("**   ADuCM360 EVM board Test Program                       \n");		
+	puts("**                                                           \n");		
+	puts("** Usage :                                                   \n");					 
+	puts("** LoveJongSu]set addr val                                   \n");					 
+	puts("** LoveJongSu]get addr                                       \n");					 			 
+	puts("**                                                           \n");		
+	puts("**                       2013, 10, 23  By Lim Jong Su        \n");	 
+	puts("**                                                           \n");		
+	puts("*************************************************************\n");
+	puts("*           1.  PWM Test                             *\n");               
+	puts("**                                                          *\n");		
+	puts("             ☞ m.  Main Menu display                        \n");
+	puts("***********************************************************\n\n");
+}
+
+
+

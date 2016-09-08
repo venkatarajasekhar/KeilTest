@@ -27,21 +27,23 @@ Project File Date:  09/07/2016
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 3 (build 300)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Rebuild target 'Target 1'
-compiling ADuCM360_Regs.c...
 compiling GPIOTEST.c...
+compiling ADuCM360_Regs.c...
 compiling main.c...
-main.c(64): warning:  #111-D: statement is unreachable
+main.c(72): warning:  #111-D: statement is unreachable
   	return 1;
-main.c: 1 warning, 0 errors
+main.c(20): warning:  #550-D: variable "state" was set but never used
+  	int state;
+main.c: 2 warnings, 0 errors
 compiling Polling_UART_Ex1.c...
 compiling JongSuLib.c...
 compiling Interrupt_UART_EX1.c...
 assembling startup_ADuCM360.s...
 compiling system_ADuCM360.c...
 linking...
-Program Size: Code=840 RO-data=256 RW-data=192 ZI-data=1632  
+Program Size: Code=1784 RO-data=256 RW-data=188 ZI-data=1636  
 FromELF: creating hex file...
-".\Objects\test.axf" - 0 Error(s), 1 Warning(s).
+".\Objects\test.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -69,7 +71,7 @@ Package Vendor: ARM
       Source file:   Device\Source\system_ADuCM360.c
 
    * Component: ARM::CMSIS:CORE:5.0.0
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
