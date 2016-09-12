@@ -405,16 +405,6 @@
               <FilePath>.\Polling_UART_Ex1.c</FilePath>
             </File>
             <File>
-              <FileName>JongSuLib.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\JongSuLib.c</FilePath>
-            </File>
-            <File>
-              <FileName>JongSuLib.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\JongSuLib.h</FilePath>
-            </File>
-            <File>
               <FileName>Interrupt_UART_EX1.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Interrupt_UART_EX1.c</FilePath>
@@ -423,6 +413,21 @@
               <FileName>Polling_UART_Ex2.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Polling_UART_Ex2.c</FilePath>
+            </File>
+            <File>
+              <FileName>UART_INOUT_Example.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\UART_INOUT_Example.c</FilePath>
+            </File>
+            <File>
+              <FileName>JongSuLib_V2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\JongSuLib_V2.c</FilePath>
+            </File>
+            <File>
+              <FileName>JongSuLib_V2.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\JongSuLib_V2.h</FilePath>
             </File>
           </Files>
         </Group>
